@@ -11,7 +11,9 @@ var io = socketio.listen(server);
 
 app.use('/', routes(io));
 
-
+app.use(function(req, res) {
+  res.sendFile(__dirname+'/public/stylesheets/style.css');
+});
 // swig integrations
 
 app.engine('html', swig.renderFile);
@@ -19,18 +21,18 @@ app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
-var locals = {
-    title: 'An Example',
-    people: [
-        { name: 'Gandalf'},
-        { name: 'Frodo' },
-        { name: 'Hermione'}
-    ]
-};
-swig.renderFile(__dirname + '/views/index.html', locals, function (err, output) {
-    console.log(output);
-});
-
-app.get('/', function (req, res) {
-  res.render('index', locals);
-});
+// var locals = {
+//     title: 'An Example',
+//     people: [
+//         { name: 'Gandalf'},
+//         { name: 'Frodo' },
+//         { name: 'Hermione'}
+//     ]
+// };
+// swig.renderFile(__dirname + '/views/index.html', locals, function (err, output) {
+//     // console.log(output);
+// });
+//
+// app.get('/', function (req, res) {
+//   res.render('index', locals);
+// });

@@ -3,9 +3,10 @@ var router = express.Router();
 // could use one line instead: var router = require('express').Router();
 var tweetBank = require('../tweetBank');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 
 module.exports = function(io) {
-
+  router.use(morgan('dev'));
   router.use(bodyParser.json());
   router.use(bodyParser.urlencoded());
 
@@ -31,10 +32,15 @@ module.exports = function(io) {
     var text = req.body.text;
     var newTweet = tweetBank.add(name, text);
     io.sockets.emit('new_tweet', newTweet);
-    res.redirect('/');
+    res.redirect('/users/'+name);
   });
 
-  router.use(express.static('public'));
+  // router.use(express.static('public'));
+
+  // router.use(function(req, res) {
+  //   console.log("look here", __dirname);
+  //   res.sendFile(path.join(__dirname, '../public/stylesheets/style.css'));
+  // });
 
   // write your own express.static - extra credit
   //
